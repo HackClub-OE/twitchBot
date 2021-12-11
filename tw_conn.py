@@ -186,8 +186,35 @@ while True:
 			print(user + " : " + msg)
 			if "stop" in msg.lower():
 				exit()
-			#Write shitty boolean logic here pls (I'm too fucking lazy)
 
-			elif msg.lower() == "x": #example of what to do - Probably need to do this for ABXY, Arrow Keys
+			elif msg.lower() == "x":
 				PressKeyPynput(X)
 				ReleaseKeyPynput(X)
+
+			elif msg.lower() == "y":
+				PressKeyPynput(Y)
+				ReleaseKeyPynput(Y)
+
+			elif msg.lower() == "a":
+				PressKeyPynput(A)
+				ReleaseKeyPynput(A)
+
+			elif msg.lower() == "b":
+				PressKeyPynput(B)
+				ReleaseKeyPynput(B)
+
+			elif msg.lower() == "up":
+				PressKeyPynput(UP_ARROW)
+				ReleaseKeyPynput(UP_ARROW)
+
+			elif msg.lower() == "down":
+				PressKeyPynput(DOWN_ARROW)
+				ReleaseKeyPynput(DOWN_ARROW)
+
+			elif msg.lower() == "right":
+				PressKeyPynput(RIGHT_ARROW)
+				ReleaseKeyPynput(RIGHT_ARROW)
+
+			elif msg.lower() == "left":
+				PressKeyPynput(LEFT_ARROW)
+				ReleaseKeyPynput(LEFT_ARROW)
