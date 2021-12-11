@@ -174,6 +174,11 @@ while True:
 	for line in read_ln.split("\r\n"):
 		if line == "":
 			continue
+		elif "PING" in line and Console(line):
+			msgg = "PONG tmi.twitch.tv\r\n".encode()
+			s.send(msgg)
+			print(msgg)
+			continue
 		else:
 			print(line)
 			user = getUser(line)
@@ -182,3 +187,7 @@ while True:
 			if "stop" in msg.lower():
 				exit()
 			#Write shitty boolean logic here pls (I'm too fucking lazy)
+
+			elif msg.lower() == "x": #example of what to do - Probably need to do this for ABXY, Arrow Keys
+				PressKeyPynput(X)
+				ReleaseKeyPynput(X)
