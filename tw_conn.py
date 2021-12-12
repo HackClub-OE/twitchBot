@@ -187,6 +187,7 @@ while True:
 			if "stop" in msg.lower():
 				exit()
 
+			#For Pokemon - need to set hotkeys on emu tho
 			elif msg.lower() == "x":
 				PressKeyPynput(X)
 				ReleaseKeyPynput(X)
