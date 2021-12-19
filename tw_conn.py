@@ -174,7 +174,7 @@ while True:
 	for line in read_ln.split("\r\n"):
 		if line == "":
 			continue
-		elif "PING" in line and Console(line):
+		elif "PING" in line and console(line):
 			msgg = "PONG tmi.twitch.tv\r\n".encode()
 			s.send(msgg)
 			print(msgg)
