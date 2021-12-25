@@ -11,4 +11,4 @@ Must install some packages from pip:
 #### Features ####
 All Windows keys hexed in, so all you need to do is use a combination of the prewritten functions<br />
 Get and react to inputs on local level<br />
-Have Fun
+Have Fun!
