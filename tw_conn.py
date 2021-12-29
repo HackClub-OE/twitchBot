@@ -9,7 +9,7 @@ SendInput = ctypes.windll.user32.SendInput
 
 
 
-def HoldKey(hexKeyCode):
+def PressKey(hexKeyCode):
     extra = ctypes.c_ulong(0)
     ii_ = pynput._util.win32.INPUT_union()
     ii_.ki = pynput._util.win32.KEYBDINPUT(0, hexKeyCode, 0x0008, 0, ctypes.cast(ctypes.pointer(extra), ctypes.c_void_p))
@@ -18,17 +18,17 @@ def HoldKey(hexKeyCode):
 
  
 
-def ReleaseKey(hexKeyCode):
+def ReleaseKeyPynput(hexKeyCode):
     extra = ctypes.c_ulong(0)
     ii_ = pynput._util.win32.INPUT_union()
     ii_.ki = pynput._util.win32.KEYBDINPUT(0, hexKeyCode, 0x0008 | 0x0002, 0, ctypes.cast(ctypes.pointer(extra), ctypes.c_void_p))
     x = pynput._util.win32.INPUT(ctypes.c_ulong(1), ii_)
     SendInput(1, ctypes.pointer(x), ctypes.sizeof(x))
 
-def HoldAndReleaseKey(hexKeyCode, seconds):
+def PressAndReleaseKey(hexKeyCode, seconds):
     HoldKey(hexKeyCode)
     time.sleep(seconds)
-    ReleaseKey(hexKeyCode)
+    ReleaseKeyPynput(hexKeyCode)
 
 
 Q = 0x10
