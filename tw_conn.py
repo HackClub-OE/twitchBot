@@ -4,19 +4,14 @@ import pynput
 import ctypes
 import time
 
-
 SendInput = ctypes.windll.user32.SendInput
 
-
-
-def PressKey(hexKeyCode):
+def PressKeyPynput(hexKeyCode):
     extra = ctypes.c_ulong(0)
     ii_ = pynput._util.win32.INPUT_union()
     ii_.ki = pynput._util.win32.KEYBDINPUT(0, hexKeyCode, 0x0008, 0, ctypes.cast(ctypes.pointer(extra), ctypes.c_void_p))
     x = pynput._util.win32.INPUT(ctypes.c_ulong(1), ii_)
     SendInput(1, ctypes.pointer(x), ctypes.sizeof(x))
-
- 
 
 def ReleaseKeyPynput(hexKeyCode):
     extra = ctypes.c_ulong(0)
@@ -26,11 +21,11 @@ def ReleaseKeyPynput(hexKeyCode):
     SendInput(1, ctypes.pointer(x), ctypes.sizeof(x))
 
 def PressAndReleaseKey(hexKeyCode, seconds):
-    HoldKey(hexKeyCode)
+    PressKeyPynput(hexKeyCode)
     time.sleep(seconds)
     ReleaseKeyPynput(hexKeyCode)
 
-
+#Windows 10 keycodes
 Q = 0x10
 W = 0x11
 E = 0x12
@@ -57,165 +52,44 @@ V = 0x2F
 B = 0x30
 N = 0x31
 M = 0x32
-
- 
-
 LEFT_ARROW = 0xCB
-
 RIGHT_ARROW = 0xCD
-
 UP_ARROW = 0xC8
-
 DOWN_ARROW = 0xD0
-
 ESC = 0x01
-
 ONE = 0x02
-
 TWO = 0x03
-
 THREE = 0x04
-
 FOUR = 0x05
-
 FIVE = 0x06
-
 SIX = 0x07
-
 SEVEN = 0x08
-
 EIGHT = 0x09
-
 NINE = 0x0A
-
 ZERO = 0x0B
-
 MINUS = 0x0C
-
 EQUALS = 0x0D
-
 BACKSPACE = 0x0E
-
 APOSTROPHE = 0x28
-
 SEMICOLON = 0x27
-
 TAB = 0x0F
-
 CAPSLOCK = 0x3A
-
 ENTER = 0x1C
-
 LEFT_CONTROL = 0x1D
-
 LEFT_ALT = 0x38
-
 LEFT_SHIFT = 0x2A
-
 RIGHT_SHIFT = 0x36
-
 TILDE = 0x29
-
 PRINTSCREEN = 0x37
-
 NUM_LOCK = 0x45
-
 SPACE = 0x39
-
 DELETE = 0x53
-
 COMMA = 0x33
-
 PERIOD = 0x34
-
 BACKSLASH = 0x35
-
 FORWARDSLASH = 0x2B
-
 LEFT_BRACKET = 0x1A
-
 RIGHT_BRACKET = 0x1B
-
- 
-
-F1 = 0x3B
-
-F2 = 0x3C
-
-F3 = 0x3D
-
-F4 = 0x3E
-
-F5 = 0x3F
-
-F6 = 0x40
-
-F7 = 0x41
-
-F8 = 0x42
-
-F9 = 0x43
-
-F10 = 0x44
-
-F11 = 0x57
-
-F12 = 0x58
-
- 
-
-NUMPAD_0 = 0x52
-
-NUMPAD_1 = 0x4F
-
-NUMPAD_2 = 0x50
-
-NUMPAD_3 = 0x51
-
-NUMPAD_4 = 0x4B
-
-NUMPAD_5 = 0x4C
-
-NUMPAD_6 = 0x4D
-
-NUMPAD_7 = 0x47
-
-NUMPAD_8 = 0x48
-
-NUMPAD_9 = 0x49
-
-NUMPAD_PLUS = 0x4E
-
-NUMPAD_MINUS = 0x4A
-
-NUMPAD_PERIOD = 0x53
-
-NUMPAD_ENTER = 0x9C
-
-NUMPAD_BACKSLASH = 0xB5
-
- 
-
-LEFT_MOUSE = 0x100
-
-RIGHT_MOUSE = 0x101
-
-MIDDLE_MOUSE = 0x102
-
-MOUSE3 = 0x103
-
-MOUSE4 = 0x104
-
-MOUSE5 = 0x105
-
-MOUSE6 = 0x106
-
-MOUSE7 = 0x107
-
-MOUSE_WHEEL_UP = 0x108
-
-MOUSE_WHEEL_DOWN = 0x109
-
 
 HOST = "irc.twitch.tv"
 PORT = 6667
@@ -231,9 +105,7 @@ s.send(bytes("PASS " + PASS + "\r\n", "UTF-8"))
 s.send(bytes("NICK " + NICK + "\r\n", "UTF-8"))
 s.send(bytes("JOIN #" + CHANNEL + " \r\n", "UTF-8"))
 
-
 def joinchat():
-
 	loading = True
 	while loading:
 		read_inp = s.recv(1024)
@@ -264,7 +136,6 @@ def getMsg(line):
 		msg = (line.split(":",2))[2]
 	except:
 		msg = ""
-
 	return msg
 
 def console(line):
@@ -273,7 +144,6 @@ def console(line):
 	else:
 		return True
 
-
 joinchat()
 
 while True:
@@ -281,7 +151,6 @@ while True:
 		read_ln = s.recv(1024).decode()
 	except:
 		read_ln = ""
-
 	for line in read_ln.split("\r\n"):
 		if line == "":
 			continue
@@ -297,36 +166,20 @@ while True:
 			print(user + " : " + msg)
 			if "stop" in msg.lower():
 				exit()
-
 			#For Pokemon - need to set hotkeys on emu tho
 			elif "x" in msg.lower():
-				PressKeyPynput(X)
-				ReleaseKeyPynput(X)
-
+				PressAndReleaseKey(X, 0.2)
 			elif msg.lower() == "y":
-				PressKeyPynput(Y)
-				ReleaseKeyPynput(Y)
-
+				PressAndReleaseKey(Y, 0.2)
 			elif msg.lower() == "a":
-				PressKeyPynput(A)
-				ReleaseKeyPynput(A)
-
+				PressAndReleaseKey(A, 0.2)
 			elif msg.lower() == "b":
-				PressKeyPynput(B)
-				ReleaseKeyPynput(B)
-
+				PressAndReleaseKey(B, 0.2)
 			elif msg.lower() == "up":
-				PressKeyPynput(UP_ARROW)
-				ReleaseKeyPynput(UP_ARROW)
-
+				PressAndReleaseKey(UP_ARROW, 0.2)
 			elif msg.lower() == "down":
-				PressKeyPynput(DOWN_ARROW)
-				ReleaseKeyPynput(DOWN_ARROW)
-
+				PressAndReleaseKey(DOWN_ARROW, 0.2)
 			elif msg.lower() == "right":
-				PressKeyPynput(RIGHT_ARROW)
-				ReleaseKeyPynput(RIGHT_ARROW)
-
+				PressAndReleaseKey(RIGHT_ARROW, 0.2)
 			elif msg.lower() == "left":
-				PressKeyPynput(LEFT_ARROW)
-				ReleaseKeyPynput(LEFT_ARROW)
+				PressAndReleaseKey(LEFT_ARROW, 0.2)
