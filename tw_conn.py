@@ -169,17 +169,25 @@ while True:
 			#For Pokemon - need to set hotkeys on emu tho
 			elif "x" in msg.lower():
 				PressAndReleaseKey(X, 0.2)
+				sendMsg(s, "Gamer press x")
 			elif msg.lower() == "y":
 				PressAndReleaseKey(Y, 0.2)
+				sendMsg(s, "Gamer press y")
 			elif msg.lower() == "a":
 				PressAndReleaseKey(A, 0.2)
+				sendMsg(s, "Gamer press a")
 			elif msg.lower() == "b":
 				PressAndReleaseKey(B, 0.2)
+				sendMsg(s, "Gamer press b")
 			elif msg.lower() == "up":
 				PressAndReleaseKey(UP_ARROW, 0.2)
+				sendMsg(s, "Gamer press up")
 			elif msg.lower() == "down":
 				PressAndReleaseKey(DOWN_ARROW, 0.2)
+				sendMsg(s, "Gamer press down")
 			elif msg.lower() == "right":
 				PressAndReleaseKey(RIGHT_ARROW, 0.2)
+				sendMsg(s, "Gamer press right")
 			elif msg.lower() == "left":
 				PressAndReleaseKey(LEFT_ARROW, 0.2)
+				sendMsg(s, "Gamer press left")
