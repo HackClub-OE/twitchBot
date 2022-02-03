@@ -4,7 +4,6 @@ import pynput
 import ctypes
 import time
 
-
 SendInput = ctypes.windll.user32.SendInput
 
 def PressKeyPynput(hexKeyCode):
@@ -21,12 +20,12 @@ def ReleaseKeyPynput(hexKeyCode):
     x = pynput._util.win32.INPUT(ctypes.c_ulong(1), ii_)
     SendInput(1, ctypes.pointer(x), ctypes.sizeof(x))
 
-def PressAndHoldKey(hexKeyCode, seconds):
+def PressAndReleaseKey(hexKeyCode, seconds):
     PressKeyPynput(hexKeyCode)
     time.sleep(seconds)
     ReleaseKeyPynput(hexKeyCode)
 
-
+#Windows 10 keycodes
 Q = 0x10
 W = 0x11
 E = 0x12
@@ -53,6 +52,10 @@ V = 0x2F
 B = 0x30
 N = 0x31
 M = 0x32
+LEFT_ARROW = 0xCB
+RIGHT_ARROW = 0xCD
+UP_ARROW = 0xC8
+DOWN_ARROW = 0xD0
 ESC = 0x01
 ONE = 0x02
 TWO = 0x03
@@ -67,44 +70,26 @@ ZERO = 0x0B
 MINUS = 0x0C
 EQUALS = 0x0D
 BACKSPACE = 0x0E
+APOSTROPHE = 0x28
 SEMICOLON = 0x27
 TAB = 0x0F
-CAPS = 0x3A
+CAPSLOCK = 0x3A
 ENTER = 0x1C
 LEFT_CONTROL = 0x1D
 LEFT_ALT = 0x38
 LEFT_SHIFT = 0x2A
+RIGHT_SHIFT = 0x36
+TILDE = 0x29
+PRINTSCREEN = 0x37
+NUM_LOCK = 0x45
 SPACE = 0x39
 DELETE = 0x53
 COMMA = 0x33
 PERIOD = 0x34
 BACKSLASH = 0x35
-NUMPAD_0 = 0x52
-NUMPAD_1 = 0x4F
-NUMPAD_2 = 0x50
-NUMPAD_3 = 0x51
-NUMPAD_4 = 0x4B
-NUMPAD_5 = 0x4C
-NUMPAD_6 = 0x4D
-NUMPAD_7 = 0x47
-NUMPAD_8 = 0x48
-NUMPAD_9 = 0x49
-NUMPAD_PLUS = 0x4E
-NUMPAD_MINUS = 0x4A
-LEFT_ARROW = 0xCB
-RIGHT_ARROW = 0xCD
-UP_ARROW = 0xC8
-DOWN_ARROW = 0xD0
-LEFT_MOUSE = 0x100
-RIGHT_MOUSE = 0x101
-MIDDLE_MOUSE = 0x102
-MOUSE3 = 0x103
-MOUSE4 = 0x104
-MOUSE5 = 0x105
-MOUSE6 = 0x106
-MOUSE7 = 0x107
-MOUSE_WHEEL_UP = 0x108
-MOUSE_WHEEL_DOWN = 0x109
+FORWARDSLASH = 0x2B
+LEFT_BRACKET = 0x1A
+RIGHT_BRACKET = 0x1B
 
 HOST = "irc.twitch.tv"
 PORT = 6667
@@ -120,9 +105,7 @@ s.send(bytes("PASS " + PASS + "\r\n", "UTF-8"))
 s.send(bytes("NICK " + NICK + "\r\n", "UTF-8"))
 s.send(bytes("JOIN #" + CHANNEL + " \r\n", "UTF-8"))
 
-
 def joinchat():
-
 	loading = True
 	while loading:
 		read_inp = s.recv(1024)
@@ -153,7 +136,6 @@ def getMsg(line):
 		msg = (line.split(":",2))[2]
 	except:
 		msg = ""
-
 	return msg
 
 def console(line):
@@ -162,7 +144,6 @@ def console(line):
 	else:
 		return True
 
-
 joinchat()
 
 while True:
@@ -170,9 +151,13 @@ while True:
 		read_ln = s.recv(1024).decode()
 	except:
 		read_ln = ""
-
 	for line in read_ln.split("\r\n"):
 		if line == "":
+			continue
+		elif "PING" in line and console(line):
+			msgg = "PONG tmi.twitch.tv\r\n".encode()
+			s.send(msgg)
+			print(msgg)
 			continue
 		else:
 			print(line)
@@ -181,4 +166,28 @@ while True:
 			print(user + " : " + msg)
 			if "stop" in msg.lower():
 				exit()
-			#Write shitty boolean logic here pls (I'm too fucking lazy)
+			#For Pokemon - need to set hotkeys on emu tho
+			elif "x" in msg.lower():
+				PressAndReleaseKey(X, 0.2)
+				sendMsg(s, "Gamer press x")
+			elif msg.lower() == "y":
+				PressAndReleaseKey(Y, 0.2)
+				sendMsg(s, "Gamer press y")
+			elif msg.lower() == "a":
+				PressAndReleaseKey(A, 0.2)
+				sendMsg(s, "Gamer press a")
+			elif msg.lower() == "b":
+				PressAndReleaseKey(B, 0.2)
+				sendMsg(s, "Gamer press b")
+			elif msg.lower() == "up":
+				PressAndReleaseKey(UP_ARROW, 0.2)
+				sendMsg(s, "Gamer press up")
+			elif msg.lower() == "down":
+				PressAndReleaseKey(DOWN_ARROW, 0.2)
+				sendMsg(s, "Gamer press down")
+			elif msg.lower() == "right":
+				PressAndReleaseKey(RIGHT_ARROW, 0.2)
+				sendMsg(s, "Gamer press right")
+			elif msg.lower() == "left":
+				PressAndReleaseKey(LEFT_ARROW, 0.2)
+				sendMsg(s, "Gamer press left")
